@@ -7,11 +7,14 @@ export const register = async(req,res)=>{
     const {name,email,avator}= req.body;
     const userFind = await User.findOne({email});
     if(userFind){
-        return res.status(400).json(userFind, Token(userFind._id));
+        return res.status(200).json({
+          userFind,
+          token: Token(userFind._id),
+        });
     }
     const user = new User({name,email,avator});
     await user.save();
-    res.status(201).json(user, Token(user._id));
+    res.status(201).json({user, token: Token(user._id)});
   } catch (e) {
     res.status(500).json({msg:e.message});
     
@@ -24,9 +27,9 @@ export const getUser=async(req,res)=>{
     const user = await User.findById(id);
     
     if(!user){
-        return res.status(404).json({msg:"user not found"});
+        return res.status(200).json({msg:"user not found"});
     }
-    res.status(200).json(user);
+    res.status(201).json(user);
   } catch (e) {
     res.status(500).json({msg:e.message});
     
