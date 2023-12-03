@@ -1,17 +1,17 @@
 
 import User from "../models/user.js";
-
+import Token from "../utils/token.js";
 
 export const register = async(req,res)=>{
   try {
     const {name,email,avator}= req.body;
     const userFind = await User.findOne({email});
     if(userFind){
-        return res.status(400).json({msg:"login user"});
+        return res.status(400).json(userFind, Token(userFind._id));
     }
     const user = new User({name,email,avator});
     await user.save();
-    res.status(201).json(user);
+    res.status(201).json(user, Token(user._id));
   } catch (e) {
     res.status(500).json({msg:e.message});
     
