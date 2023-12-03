@@ -12,8 +12,8 @@ export const register = async(req,res)=>{
     const user = new User({name,email,avator});
     await user.save();
     res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({msg:error});
+  } catch (e) {
+    res.status(500).json({msg:e.message});
     
   }
 }
@@ -27,8 +27,8 @@ export const getUser=async(req,res)=>{
         return res.status(404).json({msg:"user not found"});
     }
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({msg:error});
+  } catch (e) {
+    res.status(500).json({msg:e.message});
     
   }
 }
@@ -36,8 +36,8 @@ export const getAllUsers=async(req,res)=>{
   try {
     const user = await User.find();
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({msg:error});
+  } catch (e) {
+    res.status(500).json({msg:e.message});
     
   }
 }
